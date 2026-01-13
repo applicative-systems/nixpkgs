@@ -1,6 +1,7 @@
 # This file contains type hints that can be prepended to Nix test scripts so they can be type
 # checked.
 
+import warnings
 from test_driver.debug import DebugAbstract
 from test_driver.driver import Driver
 from test_driver.vlan import VLan
@@ -34,8 +35,19 @@ class CreateMachineProtocol(Protocol):
         start_command: str | dict,
         *,
         name: Optional[str] = None,
-        keep_vm_state: bool = False,
+        keep_machine_state: bool = False,
+        **kwargs: Any,
     ) -> BaseMachine:
+        if "keep_vm_state" in kwargs:
+            warnings.warn(
+                "The 'keep_vm_state' argument is deprecated. Use 'keep_machine_state' instead.",
+                DeprecationWarning,
+                stacklevel=2
+            )
+            keep_machine_state = kwargs.pop("keep_vm_state")
+        if kwargs:
+            raise TypeError(f"Unexpected keyword arguments: {', '.join(kwargs.keys())}")
+
         raise Exception("This is just type information for the Nix test driver")
 
 

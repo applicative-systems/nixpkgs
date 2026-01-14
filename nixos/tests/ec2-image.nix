@@ -151,7 +151,7 @@ in
         """Initialize EC2 machine with disk image, metadata server, and networking"""
         # Set up disk image
         image_dir = os.path.join(
-            os.environ.get("TMPDIR", tempfile.gettempdir()), "tmp", "vm-state-machine"
+            os.environ.get("TMPDIR", tempfile.gettempdir()), "tmp", "machine-state-machine"
         )
         os.makedirs(image_dir, mode=0o700, exist_ok=True)
         disk_image = os.path.join(image_dir, "machine.qcow2")

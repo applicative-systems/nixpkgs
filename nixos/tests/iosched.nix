@@ -53,7 +53,7 @@ in
       machine.succeed("grep -F -q '[{}]' /sys/block/{}/queue/scheduler".format(scheduler, dev))
 
     subprocess.check_call([
-      "${qemu-img}", "create", "-f", "qcow2", "vm-state-machine/mmcblk0.qcow2", "32M"
+      "${qemu-img}", "create", "-f", "qcow2", "machine-state-machine/mmcblk0.qcow2", "32M"
     ])
 
     machine.start()

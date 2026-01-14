@@ -243,13 +243,25 @@ class BaseMachine(ABC):
 
         self.keep_machine_state = keep_machine_state
 
-        self.state_dir = self.tmp_dir / f"vm-state-{self.name}"
         if (not self.keep_machine_state) and self.state_dir.exists():
             self.cleanup_statedir()
         self.state_dir.mkdir(mode=0o700, exist_ok=True)
 
         self.shared_dir = self.tmp_dir / "shared-xchg"
         self.shared_dir.mkdir(mode=0o700, exist_ok=True)
+
+    @cached_property
+    def state_dir(self) -> Path:
+        new_path = self.tmp_dir / f"machine-state-{self.name}"
+        old_path = self.tmp_dir / f"vm-state-{self.name}"
+        if old_path.exists():
+            warnings.warn(
+                f"Machine state directory {old_path} is deprecated, "
+                f"please move it to {new_path}. Falling back to the old path for now.",
+                FutureWarning,
+            )
+            return old_path
+        return new_path
 
     def log(self, msg: str) -> None:
         """

@@ -43,7 +43,7 @@
           oldAvail = machine.succeed("df --output=avail / | sed 1d")
           machine.shutdown()
 
-          subprocess.check_call(["qemu-img", "resize", "vm-state-machine/machine.qcow2", "+1G"])
+          subprocess.check_call(["qemu-img", "resize", "machine-state-machine/machine.qcow2", "+1G"])
 
           machine.start()
           machine.switch_root()

@@ -162,7 +162,7 @@
                   "convert",
                   "-O",
                   "raw",
-                  "vm-state-machine/empty0.qcow2",
+                  "machine-state-machine/empty0.qcow2",
                   "x-initrd-mount.raw",
               ]
           )

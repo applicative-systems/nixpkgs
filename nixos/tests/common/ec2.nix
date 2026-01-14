@@ -38,7 +38,7 @@ with pkgs.lib;
         import tempfile
 
         image_dir = os.path.join(
-            os.environ.get("TMPDIR", tempfile.gettempdir()), "tmp", "vm-state-machine"
+            os.environ.get("TMPDIR", tempfile.gettempdir()), "tmp", "machine-state-machine"
         )
         os.makedirs(image_dir, mode=0o700, exist_ok=True)
         disk_image = os.path.join(image_dir, "machine.qcow2")

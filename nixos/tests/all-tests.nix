@@ -168,7 +168,10 @@ in
     node-name = runTest ./nixos-test-driver/node-name.nix;
     busybox = runTest ./nixos-test-driver/busybox.nix;
     console-log = runTest ./nixos-test-driver/console-log.nix;
-    containers = runTest ./nixos-test-driver/containers.nix;
+    containers = (runTest ./nixos-test-driver/containers.nix).overrideTestDerivation (prevAttrs: {
+      # <<< TODO: is there a better way to add `requiredSystemFeatures` to a nixos test? ideally this would live in the test, rather than outside of it.
+      requiredSystemFeatures = prevAttrs.requiredSystemFeatures ++ [ "cuda" ];
+    });
     driver-timeout =
       pkgs.runCommand "ensure-timeout-induced-failure"
         {

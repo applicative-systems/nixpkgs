@@ -147,6 +147,15 @@ class Driver:
         # these are not guaranteed to be set up in the Nix sandbox.
         # if running interactively as root, these will already be set up.
 
+        # support bind mounts of the host's /run directory into the container
+        # (under /host/run). this is useful for running CUDA code in tests,
+        # which requires /run/opengl-driver to be present.
+        if Path("/run").exists():
+            # note that this is a hacky solution to the fact that
+            # the container's "real" /run is clobbered by a tmpfs (see below)
+            Path("/host/run").mkdir(parents=True)
+            subprocess.run(["mount", "--bind", "/run", "/host/run"], check=True)
+
         # check if /run is writable by root
         if not os.access("/run", os.W_OK):
             Path("/run").mkdir(parents=True, exist_ok=True)
